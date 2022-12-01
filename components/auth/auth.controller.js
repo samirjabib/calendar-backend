@@ -1,5 +1,8 @@
-const register = (req, res) => {
-    res.json({ ok:true, msg:'register'}) 
+
+
+
+const register = (req, res) => { 
+    res.json({ ok:true, msg:'register', user:req.body}) 
 
 }
 
@@ -9,4 +12,9 @@ const login = (req, res) => {
 
 }
 
-module.exports = { login, register}
+
+const revalidateToken = (req, res) => [
+    res.json({ ok:true, msg:'re-validate'}) 
+]
+
+module.exports = { login, register , revalidateToken}

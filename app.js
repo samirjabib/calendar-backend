@@ -15,7 +15,7 @@ require('dotenv').config();
 
 
 //api config 
-app.use(json());
+app.use(json()); //lecture and parse body
 app.use(express.static('public')); //we indicate the html for the render the app routes
 
 //Main Route
