@@ -1,4 +1,6 @@
 const { app } = require('./app');
+const { dbConnection } = require('./database/config');
+
 
 
 
@@ -11,6 +13,8 @@ const startServer = () => {
     app.listen( PORT, () => {
         console.log(`server on port ${PORT}`)
     })
+
+    dbConnection();
 }
 
 startServer();
