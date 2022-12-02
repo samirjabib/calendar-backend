@@ -1,16 +1,21 @@
-const { response, json } = require('express');
+const { response } = require('express');
+const { matchedData } = require('express-validator');
+const { generateJWT } = require('../../helpers/jwt');
 
 
 //Utils
 const { handleHttpError } = require('../../utils/handleHttpError.util');
-const { encrypt } = require('../../utils/handlePassword');
+const { encrypt, compare } = require('../../utils/handlePassword');
 
 //Model
 const User = require('../users/user.model')
 
 const register = async (req, res = response, next) => { // req: CLIENT TO SERVER / res: SERVER TO CLIENT / next: ERROR SEND TO NEXT MIDDLEWARE
-    
-    const { name, email, password } = req.body; //Desesctrutured from body
+
+    const data = matchedData(req); //https://express-validator.github.io/docs/matched-data-api.html
+
+    const { name, email, password } = data; //Desesctrutured from body
+
     
     try{
 
@@ -41,19 +46,47 @@ const register = async (req, res = response, next) => { // req: CLIENT TO SERVER
     res.status(201).json({ status:'succes', newUser,});
 
     } catch(error) {
-        next(error)
+        console.log(error)
+        handleHttpError(res, "ERROR_REGISTER_USER")
     }
 }
 
 
 const login = async (req, res) =>  {
-    
-    const { email, password} = req.body;
+
+    const { email, password } = req.body
 
     try{
-        const user = await User.findOne({$where:email})
-    } catch(error) {
+
+        const user = await User.findOne({email})
+        console.log(user)
+
+        if(!user){
+            handleHttpError(res, "USER_NOT_EXISTS");
+            return
+        }        
+        const validPassword = await compare( password , user.password);
+
         
+        if(!validPassword){
+            handleHttpError(res, "PASSWORD_INVALID", 401)
+            return
+        }
+
+        
+        const token = await generateJWT(user.id, user.name)
+
+        const data = {
+            uid:user.id,
+            name:user.name,
+            token
+        }
+
+        res.json({status:"success", data})
+
+    } catch(error) {
+        console.log(error)
+        handleHttpError(res, "ERROR_LOGIN_USER")
     }
 }
 

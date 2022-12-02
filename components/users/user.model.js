@@ -23,11 +23,12 @@ const UserSchema = Schema({
     },
 
     {
-        timestamps :true,
+        timestamps :true, 
+        versionKry:false,
     }
 );
 
-UserSchema.plugin(mongooseDelete, { overrideMethods:"all"});
+UserSchema.plugin(mongooseDelete, { overrideMethods:"all"}); //https://www.npmjs.com/package/mongoose-delete enable soft delete in documents of Mongo
 
 module.exports = model('user', UserSchema);
 

@@ -1,4 +1,5 @@
 const express = require('express');
+const { mathedData } = require("express-validator")
 
 //Controllers
 const { register , login, revalidateToken } = require('./auth.controller');
