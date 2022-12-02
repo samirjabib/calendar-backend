@@ -59,7 +59,7 @@ const login = async (req, res) =>  {
     try{
 
         const user = await User.findOne({email})
-        console.log(user)
+        console.log(user._id)
 
         if(!user){
             handleHttpError(res, "USER_NOT_EXISTS");
@@ -74,8 +74,9 @@ const login = async (req, res) =>  {
         }
 
         
-        const token = await generateJWT(user.id, user.name)
+        const token = await generateJWT(user._id, user.name)
 
+        console.log(token)
         const data = {
             uid:user.id,
             name:user.name,
