@@ -8,14 +8,14 @@ const { encrypt } = require('../../utils/handlePassword');
 //Model
 const User = require('../users/user.model')
 
-const register = async (req, res = response) => { // req: CLIENT TO SERVER / res: SERVER TO CLIENT / next: ERROR SEND TO NEXT MIDDLEWARE
+const register = async (req, res = response, next) => { // req: CLIENT TO SERVER / res: SERVER TO CLIENT / next: ERROR SEND TO NEXT MIDDLEWARE
     
     const { name, email, password } = req.body; //Desesctrutured from body
     
     try{
 
  
-    const userExist = await .findOne({email}) //if user exist return error
+    let userExist = await User.findOne({email}) //if user exist return error
 
     if(userExist){
         return handleHttpError(res, 'EMAIL_ALREADY_EXISTS', 400)
@@ -23,25 +23,38 @@ const register = async (req, res = response) => { // req: CLIENT TO SERVER / res
 
     const HashPassword = await encrypt(password);
 
-    const user = await User.create({
+
+
+    const newUser = new User({
         name,
         email,
-        password: HashPassword,
-    });
-    
+        password:HashPassword,
+    })
 
-    res.status(201, json.{status:'succes', user});
+
+    
+    await newUser.save(); //For save in database mongo.
+    newUser.password = undefined; //remove password from response. 
+
+
+
+    res.status(201).json({ status:'succes', newUser,});
 
     } catch(error) {
-        console.log(error)
+        next(error)
     }
-    
-
 }
 
 
-const login = (req, res) => {
-    //TODO 
+const login = async (req, res) =>  {
+    
+    const { email, password} = req.body;
+
+    try{
+        const user = await User.findOne({$where:email})
+    } catch(error) {
+        
+    }
 }
 
 

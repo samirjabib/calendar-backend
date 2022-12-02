@@ -1,21 +1,33 @@
-const { Schema, model} = require('mongoose')
+const { Schema, model, } = require('mongoose')
+const mongooseDelete = require('mongoose-delete')
 
 
-const UserShema = Schema({
-    name:{
-        type:String,
-        required: true
+const UserSchema = Schema({
+        name:{
+            type:String,
+            required: true
+        },
+        email:{
+            type:'String',
+            required: true,
+            unique :true,
+        },
+        password: {
+            type:String,
+            required:true,
+        },
+        role:{
+            type:["user", "admin"],
+            default:'user',
+        },
     },
-    email:{
-        type:'String',
-        required: true
-    },
-    password: {
-        type:String,
-        required:true,
+
+    {
+        timestamps :true,
     }
-});
+);
 
+UserSchema.plugin(mongooseDelete, { overrideMethods:"all"});
 
-module.exports = model('user', UserShema);
+module.exports = model('user', UserSchema);
 

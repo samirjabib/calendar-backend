@@ -19,6 +19,7 @@
     "express-validator": "^6.14.2",
     "json": "^11.0.0",
     "mongoose": "^6.7.5",
+    "mongoose-delete": "^0.5.4",
     "nodemon": "^2.0.20"
   }
 }
