@@ -7,6 +7,7 @@ const { register , login, revalidateToken } = require('./auth.controller');
 //Middleware
 const { createUserValidations, validatorLogin } = require('./middlewares/user.validations');
 const { checkValidations } = require('../../middlewares/check.validations');
+const { validateJWT } = require('../../middlewares/validate-jwt')
 
 //Route
 const authRouter = express.Router();
@@ -15,6 +16,6 @@ const authRouter = express.Router();
 
 authRouter.post('/register', createUserValidations, checkValidations, register);
 authRouter.post('/login', validatorLogin, checkValidations ,login);
-authRouter.get('/re-validate', revalidateToken);
+authRouter.get('/re-validate', validateJWT, revalidateToken );
 
 module.exports = { authRouter };
