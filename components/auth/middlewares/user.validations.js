@@ -17,4 +17,18 @@ const createUserValidations = [
 ];
 
 
-module.exports = { createUserValidations }
+const validatorLogin = [
+    body("password")
+        .exists()
+        .notEmpty()
+        .isLength({min:3, max:15})
+        .withMessage('enter valid password'),
+    body("email")
+        .exists()
+        .notEmpty()
+        .isEmail()
+        .withMessage('enter valid email'),
+];
+
+
+module.exports = { createUserValidations, validatorLogin }

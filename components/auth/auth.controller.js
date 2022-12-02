@@ -73,7 +73,7 @@ const login = async (req, res) =>  {
             return
         }
 
-        
+        //Generate token
         const token = await generateJWT(user._id, user.name)
 
         console.log(token)
@@ -92,8 +92,17 @@ const login = async (req, res) =>  {
 }
 
 
-const revalidateToken = (req, res) => [
-    //TODO
-]
+const revalidateToken = async (req, res = response) => {
+    const { uid, name } = req;
 
+
+    //Generar JWT
+
+    const token = await generateJWT(uid, name)
+
+    res.json({
+        status:'succes',
+        token
+    })
+}
 module.exports = { login, register , revalidateToken}
