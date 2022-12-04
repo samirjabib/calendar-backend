@@ -4,7 +4,7 @@ const { AppError } = require('../utils/appError.util')
 
 const checkValidations = (req, res, next) => {
     const errors = validationResult(req);
-  
+    console.log('me renderice')  
     if (!errors.isEmpty()) {
       const messages = errors.array().map(({ msg }) => msg);
   

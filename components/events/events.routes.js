@@ -6,6 +6,9 @@ const { createEvent, deleteEvent, getEvents, updateEvent } = require('./events.c
 
 //Midlewares
 const { validateJWT } = require('../../middlewares/validate-jwt');
+const { checkValidations } = require('../../middlewares/check.validations');
+const { createEventsValidator  } = require('./middleware/events.validations');
+
 
 //Route
 
@@ -14,7 +17,7 @@ const eventRouter = express.Router();
 eventRouter.use(validateJWT);
 
 eventRouter.get('/', getEvents);
-eventRouter.post('/', createEvent);
+eventRouter.post('/',createEventsValidator, checkValidations, createEvent);
 eventRouter.put('/:id', updateEvent);
 eventRouter.delete('/:id', deleteEvent);
 

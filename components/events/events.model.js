@@ -4,22 +4,23 @@ const { Schema, model } = require('mongoose');
 const EventsSchema = Schema({
     title:{
         type:String,
-        require
+        required:true,
     },
     notes:{
         type:String,
     },
     start:{
         type:Date,
-        require:true
+        required:true
     },
     end:{
         type:Date,
-        require:true
+        required:true
     },
     user:{
         type:Schema.Types.ObjectId,
-        ref:'user'
+        ref:'user',
+        required:true,
     }
 });
 

@@ -1,10 +1,13 @@
 const { response } = require('express');
+const { matchedData } = require('express-validator');
+const { Model } = require('mongoose');
 
 
 //utils
 const { handleHttpError } = require('../../utils/handleHttpError.util');
 
 //Model
+const Event = require('./events.model');
 
 
 const getEvents = async (req, res = response, next) => {
@@ -13,8 +16,12 @@ const getEvents = async (req, res = response, next) => {
 
 
 const createEvent = async (req, res = response, next) => {
-    res.json(req.body)
-    console.log(req.body)
+    console.log(req)
+
+    res.json({
+        status:'succes',
+        msg:'event create',
+    })
 }
 
 const updateEvent = async (req, res, next) => {
