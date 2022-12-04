@@ -7,19 +7,14 @@ const { handleHttpError } = require('../../utils/handleHttpError.util');
 //Model
 
 
-const getEvents = async (req, res, next) => {
-    res.json({
-        status:'success',
-        msg:'all events here'
-    })
+const getEvents = async (req, res = response, next) => {
+   
 };
 
 
-const createEvent = async (req, res, next) => {
-    res.json({
-        status:'success',
-        msg:'event has been create'
-    })
+const createEvent = async (req, res = response, next) => {
+    res.json(req.body)
+    console.log(req.body)
 }
 
 const updateEvent = async (req, res, next) => {
