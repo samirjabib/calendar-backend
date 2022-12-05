@@ -59,7 +59,6 @@ const login = async (req, res) =>  {
     try{
 
         const user = await User.findOne({email})
-        console.log(user._id)
 
         if(!user){
             handleHttpError(res, "USER_NOT_EXISTS");

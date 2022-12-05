@@ -24,5 +24,12 @@ const EventsSchema = Schema({
     }
 });
 
+EventsSchema.method('toJSON', function() { //this method modifique de req visual on the postman
+    const { __v, _id, ...object } = this.toObject(); // select objct and make the spreak operator.
+    object.id = _id; //rename id
+    return object; //return object to Event Coleccion. 
+});
+
+
 module.exports =model('event', EventsSchema);
 

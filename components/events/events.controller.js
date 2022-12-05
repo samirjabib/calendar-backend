@@ -16,12 +16,26 @@ const getEvents = async (req, res = response, next) => {
 
 
 const createEvent = async (req, res = response, next) => {
-    console.log(req)
+    
+    const event = new Event( req.body );
 
-    res.json({
-        status:'succes',
-        msg:'event create',
-    })
+    try {
+        event.user = req.uid;
+
+        const eventSaved = await event.save();
+    
+        res.status(500).json({
+            status:'success',
+            event: eventSaved,
+        })
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            status:'failed',
+            msg:'contact admin for more info.'
+        })
+    }
+   
 }
 
 const updateEvent = async (req, res, next) => {
