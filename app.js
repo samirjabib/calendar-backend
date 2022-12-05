@@ -1,8 +1,8 @@
 //Npm
 const { json } = require('express');
-const express = require('express');
+const  bodyParser = require('body-parser')
 const { router } = require('./routes/router');
-
+const express = require('express')
 
 const { handleHttpError } = require('./utils/handleHttpError.util');
 
@@ -17,6 +17,8 @@ require('dotenv').config();
 //api config 
 app.use(json()); //lecture and parse body
 app.use(express.static('public')); //we indicate the html for the render the app routes
+app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.json());
 
 //Main Route
 

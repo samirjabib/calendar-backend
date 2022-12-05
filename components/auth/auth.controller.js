@@ -101,7 +101,9 @@ const revalidateToken = async (req, res = response) => {
 
     res.json({
         status:'succes',
-        token
+        token,
+        uid,
+        name
     })
 }
 module.exports = { login, register , revalidateToken}
