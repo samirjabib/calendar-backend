@@ -3,6 +3,7 @@ const { json } = require('express');
 const  bodyParser = require('body-parser')
 const { router } = require('./routes/router');
 const express = require('express')
+const cors = require('cors')
 
 const { handleHttpError } = require('./utils/handleHttpError.util');
 
@@ -19,6 +20,7 @@ app.use(json()); //lecture and parse body
 app.use(express.static('public')); //we indicate the html for the render the app routes
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
+app.use(cors());//Enable Cors
 
 //Main Route
 
