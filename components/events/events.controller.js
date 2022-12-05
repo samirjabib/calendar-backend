@@ -68,7 +68,7 @@ const updateEvent = async (req, res, next) => {
             user:uid,
         };
 
-        const eventUpdated = await Event.findByIdAndUpdate( eventId, newEvent,{ new:true });
+        const eventUpdated = await Event.findByIdAndUpdate( eventId, newEvent, { new:true }); //the 3 parameter is for update in console the response. 
 
         res.status(200).json({
             status:"success",
@@ -83,10 +83,44 @@ const updateEvent = async (req, res, next) => {
 }
 
 const deleteEvent = async (req, res, next) => {
-    res.json({
-        status:'success',
-        msg:'event delete'
-    })
+  
+    const eventId = req.params.id;
+    const uid = req.uid;
+
+    try {
+        
+        const event = await Event.findById( eventId );
+
+        if(!event){
+            return res.status(404).json({
+                status:"success",
+                msg:"The event dont exist by this id"
+            });
+        };
+
+        if( event.user.toString() !== uid) {
+            return res.status(401).json({
+                status:"failed",
+                msg:"you do not have permission on this account "
+            })
+        };
+
+        const newEvent = {
+            ...req.body,
+            user:uid,
+        };
+
+        await Event.findOneAndDelete( eventId, newEvent); //the 3 parameter is for update in console the response. 
+
+        res.status(200).json({
+            status:"success",
+            msg:"event deleted "
+        })
+
+    } catch (error) {
+        console.log(error)
+        handleHttpError(res, "ERROR DELETING EVENT")
+    }
 };
 
 
