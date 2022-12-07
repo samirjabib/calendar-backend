@@ -21,7 +21,7 @@ const getEvents = async (req, res = response, next) => {
 
 
 const createEvent = async (req, res = response, next) => {
-    
+    console.log(req.body)
     const event = new Event( req.body );
 
     try {
